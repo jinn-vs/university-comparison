@@ -168,23 +168,44 @@ def results():
     if 'user_id' not in session:
         return redirect('/login')
     
-    # URL se data lo
+    # URL se student ka data lo
     city = request.args.get('city')
     budget = request.args.get('budget')
     program = request.args.get('program')
     percentage = request.args.get('percentage')
     
+    # Filter values lo
+    filter_city = request.args.get('filter_city', '')
+    max_fees = request.args.get('max_fees', '')
+    sort_by = request.args.get('sort_by', 'score')
+    
     # Recommendation function call karo
     universities = recommend_universities(percentage, budget, city, program)
     
-    return render_template('results.html', 
+    # Filter by city — agar filter_city select kiya hai
+    if filter_city:
+        universities = [u for u in universities if u['city'] == filter_city]
+    
+    # Filter by max fees — agar max_fees diya hai
+    if max_fees:
+        universities = [u for u in universities if u['fees'] <= int(max_fees)]
+    
+    # Sort by — fees ya ranking ke hisaab se
+    if sort_by == 'fees':
+        universities.sort(key=lambda x: x['fees'])
+    elif sort_by == 'ranking':
+        universities.sort(key=lambda x: x['ranking'])
+    
+    return render_template('results.html',
                          universities=universities,
                          city=city,
                          budget=budget,
                          program=program,
                          percentage=percentage,
+                         filter_city=filter_city,
+                         max_fees=max_fees,
+                         sort_by=sort_by,
                          username=session['username'])
-
 @app.route('/admin')
 def admin():
     # Check karo user login hai aur admin hai
