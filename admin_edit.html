@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit University</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-danger">
+        <div class="container">
+            <span class="navbar-brand">Admin Panel</span>
+            <a href="/admin" class="btn btn-light btn-sm">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Edit University</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/admin/update/{{ uni[0] }}">
+                            <div class="mb-3">
+                                <label>University Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ uni[1] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>City</label>
+                                <input type="text" name="city" class="form-control" value="{{ uni[2] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Program</label>
+                                <input type="text" name="program" class="form-control" value="{{ uni[3] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Fees (Per Semester)</label>
+                                <input type="number" name="fees" class="form-control" value="{{ uni[4] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Ranking</label>
+                                <input type="number" name="ranking" class="form-control" value="{{ uni[5] }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Minimum Percentage</label>
+                                <input type="number" name="min_percentage" class="form-control" value="{{ uni[6] }}"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100">Update University</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

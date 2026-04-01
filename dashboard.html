@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - University Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <span class="navbar-brand">University Comparison System</span>
+            <span class="text-white">Welcome, {{ username }}!</span>
+            <a href="/logout" class="btn btn-light btn-sm">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4">Find Your Best University</h4>
+
+                        {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                        {% endif %}
+
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label>Your Percentage / CGPA %</label>
+                                <input type="number" name="percentage" class="form-control" min="0" max="100"
+                                    placeholder="e.g. 75" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Preferred City</label>
+                                <select name="preferred_city" class="form-control" required>
+                                    <option value="">-- Select City --</option>
+                                    <option>Islamabad</option>
+                                    <option>Lahore</option>
+                                    <option>Karachi</option>
+                                    <option>Rawalpindi</option>
+                                    <option>Wah</option>
+                                    <option>Peshawar</option>
+                                    <option>Hyderabad</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label>Budget (Per Semester in PKR)</label>
+                                <input type="number" name="budget" class="form-control" min="0"
+                                    placeholder="e.g. 100000" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Desired Program</label>
+                                <select name="desired_program" class="form-control" required>
+                                    <option value="">-- Select Program --</option>
+                                    <option>Computer Science</option>
+                                    <option>Software Engineering</option>
+                                    <option>Electrical Engineering</option>
+                                    <option>Mechanical Engineering</option>
+                                    <option>Civil Engineering</option>
+                                    <option>Business Administration</option>
+                                    <option>Data Science</option>
+                                    <option>Cyber Security</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Find Universities</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
