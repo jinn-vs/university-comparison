@@ -20,49 +20,97 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <!-- Filter Bar -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" action="/results" class="row g-3">
+                <input type="hidden" name="city" value="{{ city }}">
+                <input type="hidden" name="program" value="{{ program }}">
+                <input type="hidden" name="percentage" value="{{ percentage }}">
+                <input type="hidden" name="budget" value="{{ budget }}">
 
-        <h4 class="mb-3">Results for: <span class="text-primary">{{ program }}</span> in <span class="text-primary">{{
-                city }}</span></h4>
-        <p class="text-muted">Your Percentage: {{ percentage }}% | Budget: PKR {{ budget }}</p>
+                <div class="col-md-4">
+                    <label>Filter by City</label>
+                    <select name="filter_city" class="form-control">
+                        <option value="">All Cities</option>
+                        <option value="Islamabad" {% if filter_city=='Islamabad' %}selected{% endif %}>Islamabad
+                        </option>
+                        <option value="Lahore" {% if filter_city=='Lahore' %}selected{% endif %}>Lahore</option>
+                        <option value="Karachi" {% if filter_city=='Karachi' %}selected{% endif %}>Karachi</option>
+                        <option value="Rawalpindi" {% if filter_city=='Rawalpindi' %}selected{% endif %}>Rawalpindi
+                        </option>
+                        <option value="Wah" {% if filter_city=='Wah' %}selected{% endif %}>Wah</option>
+                        <option value="Peshawar" {% if filter_city=='Peshawar' %}selected{% endif %}>Peshawar</option>
+                        <option value="Hyderabad" {% if filter_city=='Hyderabad' %}selected{% endif %}>Hyderabad
+                        </option>
+                    </select>
+                </div>
 
-        {% if universities %}
-        {% for uni in universities %}
-        <div class="card shadow-sm mb-3 {% if uni.is_preferred %}border-primary border-2{% endif %}">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-md-1 text-center">
-                        <h3 class="text-primary fw-bold">{{ loop.index }}</h3>
-                        <small class="text-muted">Rank</small>
-                    </div>
-                    <div class="col-md-7">
-                        <h5 class="mb-1">{{ uni.name }}
-                            {% if uni.is_preferred %}
-                            <span class="badge bg-primary">⭐ Your City</span>
-                            {% else %}
-                            <span class="badge bg-secondary">Other City</span>
-                            {% endif %}
-                        </h5>
-                        <p class="mb-1 text-muted">📍 {{ uni.city }} | 🎓 {{ uni.program }}</p>
-                        <p class="mb-0 text-muted">Minimum Percentage Required: {{ uni.min_percentage }}%</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <h5 class="text-success">PKR {{ uni.fees }}</h5>
-                        <small class="text-muted">Per Semester</small>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <h5 class="text-warning">⭐ {{ uni.score }}</h5>
-                        <small class="text-muted">Match Score</small>
-                    </div>
+                <div class="col-md-4">
+                    <label>Max Fees</label>
+                    <input type="number" name="max_fees" class="form-control" placeholder="e.g. 150000"
+                        value="{{ max_fees if max_fees }}">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Sort By</label>
+                    <select name="sort_by" class="form-control">
+                        <option value="score" {% if sort_by=='score' %}selected{% endif %}>Match Score</option>
+                        <option value="fees" {% if sort_by=='fees' %}selected{% endif %}>Fees (Low to High)</option>
+                        <option value="ranking" {% if sort_by=='ranking' %}selected{% endif %}>Ranking</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary me-2">Apply Filter</button>
+                    <a href="/results?city={{ city }}&budget={{ budget }}&program={{ program }}&percentage={{ percentage }}"
+                        class="btn btn-outline-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Results for: <span class="text-primary">{{ program }}</span> in <span class="text-primary">{{
+            city }}</span></h4>
+    <p class="text-muted">Your Percentage: {{ percentage }}% | Budget: PKR {{ budget }}</p>
+
+    {% if universities %}
+    {% for uni in universities %}
+    <div class="card shadow-sm mb-3 {% if uni.is_preferred %}border-primary border-2{% endif %}">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-1 text-center">
+                    <h3 class="text-primary fw-bold">{{ loop.index }}</h3>
+                    <small class="text-muted">Rank</small>
+                </div>
+                <div class="col-md-7">
+                    <h5 class="mb-1">{{ uni.name }}
+                        {% if uni.is_preferred %}
+                        <span class="badge bg-primary">⭐ Your City</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Other City</span>
+                        {% endif %}
+                    </h5>
+                    <p class="mb-1 text-muted">📍 {{ uni.city }} | 🎓 {{ uni.program }}</p>
+                    <p class="mb-0 text-muted">Minimum Percentage Required: {{ uni.min_percentage }}%</p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <h5 class="text-success">PKR {{ uni.fees }}</h5>
+                    <small class="text-muted">Per Semester</small>
+                </div>
+                <div class="col-md-2 text-center">
+                    <h5 class="text-warning">⭐ {{ uni.score }}</h5>
+                    <small class="text-muted">Match Score</small>
                 </div>
             </div>
         </div>
-        {% endfor %}
-        {% else %}
-        <div class="alert alert-warning">
-            No universities found matching your criteria. Try adjusting your budget or city.
-        </div>
-        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning">
+        No universities found matching your criteria. Try adjusting your budget or city.
+    </div>
+    {% endif %}
     </div>
 </body>
 
